@@ -137,7 +137,7 @@
           </div>
           <div class="col-4">
             <label for="empCostC">Cost Center</label>
-            <select class="browser-default custom-select" id="empCost">
+            <input type="text" id="empCost" class="form-control" placeholder="Select Position first" disabled>
             </select>
           </div>
           <div class="col-4">

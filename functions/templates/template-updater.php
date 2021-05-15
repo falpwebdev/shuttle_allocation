@@ -19,7 +19,6 @@
     $worksheet->getCell('E'.$startRow)->setValue('');
     $worksheet->getCell('F'.$startRow)->setValue('');
     $worksheet->getCell('G'.$startRow)->setValue('');
-    $worksheet->getCell('H'.$startRow)->setValue('');
     $startRow++;
   }
   $startRow = 2;
@@ -31,15 +30,6 @@
     $worksheet->getCell('A'.$startRow)->setValue($position);
     $startRow++;
   }
-  // Cost Center
-  $startRow = 2;
-  $sqlCostC = "SELECT `costCenter` FROM `a_m_costing`";
-  $query = $conn->query($sqlCostC);
-  while ($datCost = $query->fetch_assoc()) {
-    $cost = $datCost['costCenter'];
-    $worksheet->getCell('B'.$startRow)->setValue($cost);
-    $startRow++;
-  }
   // Department
   $startRow = 2;
   $sqlDept = "SELECT `deptCode`, `deptName` FROM `a_m_department` GROUP BY deptName";
@@ -48,25 +38,25 @@
     $code = $datDept['deptCode'];
     $name = $datDept['deptName'];
     $dept = $code.' ('.$name.')';
-    $worksheet->getCell('C'.$startRow)->setValue($dept);
+    $worksheet->getCell('B'.$startRow)->setValue($dept);
     $startRow++;
   }
   // Area
-  $worksheet->getCell('D2')->setValue('A');
-  $worksheet->getCell('D3')->setValue('B');
+  $worksheet->getCell('C2')->setValue('A');
+  $worksheet->getCell('C3')->setValue('B');
   // Route
   $startRow = 2;
   $sqlRoute = "SELECT `route` FROM `sas_m_route`";
   $query = $conn->query($sqlRoute);
   while ($datRoute = $query->fetch_assoc()) {
     $route = $datRoute['route'];
-    $worksheet->getCell('E'.$startRow)->setValue($route);
+    $worksheet->getCell('D'.$startRow)->setValue($route);
     $startRow++;
   }
   // Shift
-  $worksheet->getCell('F2')->setValue('DS');
-  $worksheet->getCell('F3')->setValue('ADS');
-  $worksheet->getCell('F4')->setValue('NS');
+  $worksheet->getCell('E2')->setValue('DS');
+  $worksheet->getCell('E3')->setValue('ADS');
+  $worksheet->getCell('E4')->setValue('NS');
 
   // Work Sched
   $startRow = 2;
@@ -74,13 +64,13 @@
   $query = $conn->query($sql);
     while ($datRoute = $query->fetch_assoc()) {
         $schedTime = $datRoute['schedTime'];
-        $worksheet->getCell('G'.$startRow)->setValue($schedTime);
+        $worksheet->getCell('F'.$startRow)->setValue($schedTime);
         $startRow++;
     }
     
   //  Job Type 
-  $worksheet->getCell('H2')->setValue('Temporary');
-  $worksheet->getCell('H3')->setValue('Permanent');
+  $worksheet->getCell('G2')->setValue('Temporary');
+  $worksheet->getCell('G3')->setValue('Permanent');
 
   $writer->save($targetFile);
 

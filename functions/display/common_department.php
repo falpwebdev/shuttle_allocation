@@ -68,15 +68,21 @@
         $agency = $data['agencyCode'];
         echo '<option value="'.$agency.'">'.$agency.'</option>';
       }
-    }elseif ($rqst == 'm_cost') {
-      $deptCode = $_GET['dept'];
-      $sql = "SELECT `costCenter` FROM `a_m_costing` WHERE `deptCode` = '$deptCode'";
+    }else if ($rqst == 'm_cost') {
+      $position = $_GET['position'];
+      $sql = "SELECT c.costCenter, p.position, p.rank
+      FROM a_m_costing c
+      INNER JOIN a_m_position p ON c.rank = p.rank WHERE p.position = '$position' AND `deptCode` = 'HR' AND c.deptSubSection = 'PD Technical Training'";
       $query = $conn->query($sql);
-      echo '<option selected value="0">Select Cost Center</option>';
-      while ($data = $query->fetch_assoc()) {
-        $costing = $data['costCenter'];
-        echo '<option value="'.$costing.'">'.$costing.'</option>';
-      }
+      $data = $query->fetch_assoc();
+        echo $costing = $data['costCenter'];
+    }else if ($rqst == 'ma_cost') {
+          $position = $_GET['position'];
+          if($position == 'Associate'){
+            echo "501.1_PD Technical Training";
+          }else{
+            echo "N/A";
+          }
     }else if ($rqst == 'a_m_department') {
       $sql = "SELECT DISTINCT(deptCode) AS deptCode FROM `a_m_department` WHERE `special` = 'No'";
       $query = $conn->query($sql);

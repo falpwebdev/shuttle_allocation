@@ -2,13 +2,13 @@
   include 'db/config.php';
   if(isset($_GET['code'])){
     $code = $_GET['code'];
-    $sqlCodeInfo = "SELECT * FROM `t_code_resubmit_outgoing` WHERE `resubmitCode` ='$code' AND `status` = 'Open';";
+    $sqlCodeInfo = "SELECT * FROM `sas_d_resub_code` WHERE `resubmitCode` ='$code' AND `status` = 'Open';";
     $query = $conn->query($sqlCodeInfo);
     $count = mysqli_num_rows($query);
     if($count != '1'){
       $codeStat = 'Used';
     }else{
-      // $sqlUpdateCode = "UPDATE `t_code_resubmit_outgoing` SET `status`= 'Using', `usedDt`= (SELECT CURRENT_TIMESTAMP()) WHERE `resubmitCode` = '$code'";
+      // $sqlUpdateCode = "UPDATE `sas_d_resub_code` SET `status`= 'Using', `usedDt`= (SELECT CURRENT_TIMESTAMP()) WHERE `resubmitCode` = '$code'";
       // $query1 = $conn->query($sqlUpdateCode);
       $codeStat = 'Open';
       while($data = $query->fetch_assoc()){

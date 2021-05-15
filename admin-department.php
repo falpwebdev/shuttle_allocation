@@ -41,6 +41,7 @@
 <?php
   include 'src/navs/admin-topnav.php';
   include 'modals/ad-addEmployee.php';
+  include 'modals/admin_upload_emp.php';
   include 'modals/activeMP.php';
 ?>
 <!-- ADDING LOADER -->
@@ -303,10 +304,10 @@ $(document).ready(function(){
       // Display Cost
         const displayCostCenter = (x) => {
           $.ajax({
-            url: 'functions/display/common_department.php?data=m_cost&dept='+x,
+            url: 'functions/display/common_department.php?data=m_cost&position='+x,
             method: 'get',
             success: function(response){
-              $('#empCost').html(response);
+              $('#empCost').val(response);
             },error: function(){
             }
           });
@@ -374,7 +375,7 @@ $(document).ready(function(){
         });
   // Add Employee
     // Display Cost Center
-      $('#empDepartment').change(function(){
+      $('#empPosition').change(function(){
         var x = $(this).val();
         displayCostCenter(x);
       });
@@ -486,16 +487,19 @@ $(document).ready(function(){
             type: 'post',
             success: function (response){
               $('.overlay').hide();
-              Swal.fire({
-                icon: 'info',
-                showConfirmButton: false,
-                showCloseButton: true,
-                title: 'Uploading Status',
-                text: response
-              })
+              $('#uploadMPMod').modal();
+              $('#tblUploadStat').html(response);
             },error: function (response){
             }
           });
+      });
+      // Download Error Report
+      $('#btnExportError').click(function (e) {
+        window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('div[id=statSummary]').html()));
+              e.preventDefault();
+      });
+      $('#btnCloseMod').click(function(){
+        location.reload();
       });
   // Deact Employee
     $('#uploadDeactEmp').change(function(){

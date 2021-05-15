@@ -24,6 +24,7 @@
 <body>
 <?php
  include '../modals/processingUI.php';
+ include '../modals/admin_upload_emp.php';
 ?>
 <div class="container-fluid">
   <div class="row mt-3">
@@ -57,7 +58,7 @@
                         <span class="btn btn-outline-primary waves-effect btn-lg btn-block mt-2 btn-file" ><i class="fas fa-upload" style="font-size:15px;"></i> Add Manpower
                         <input type="file" id="uploadNewEmp" name="fileNew" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" ></span>
                 </form>
-                <a href="templates/Add Manpower Template.xlsx" class="btn btn-outline-info waves-effect btn-sm mt-2"> <i class="fas fa-file-download" style="font-size:15px;"></i> Download Template</a>
+                <a href="templates/Manpower Adjustment Template.xlsx" class="btn btn-outline-info waves-effect btn-sm mt-2"> <i class="fas fa-file-download" style="font-size:15px;"></i> Download Template</a>
 
                   <p class="note note-danger mt-2"><strong>Note: </strong>If manpower already exist in the system, the data of the MP will be updated. </p>
                 </div>
@@ -179,26 +180,20 @@
           data: form_data,
           type: 'post',
           success: function (response){
-            Swal.fire({
-              icon: 'info',
-              showConfirmButton: false,
-              showCloseButton: true,
-              title: 'Uploading Status',
-              text: response
-            })
-              setTimeout(() => {
-                Swal.fire(
-                'Success!',
-                'Uploading Status Done',
-                'success'
-                )
-                setInterval(function(){
-                  location.reload();
-                },2000);
-              },2000);
+              $('#uploadMPMod').modal();
+              $('#tblUploadStat').html(response);
           },error: function (response){
           }
         });
+        // Download Error Report
+      $('#btnExportError').click(function (e) {
+        window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('div[id=statSummary]').html()));
+              e.preventDefault();
+
+      });
+      $('#btnCloseMod').click(function(){
+        location.reload();
+      });
     });
   //  UPLOAD EXCESS MANPOWER
     $('#uploadExcessEmp').change(function(){

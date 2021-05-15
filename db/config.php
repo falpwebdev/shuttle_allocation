@@ -3,6 +3,7 @@
   // $servername = '172.25.112.172';
   // $username = 'SystemGroup';
   // $password = '#Sy$temGr0^p|112172';
+  // $db = 'live_sas';
   $servername = '172.25.114.165';
   $username = 'SystemGroup';
   $password = '#Sy$temGr0^p|112172';

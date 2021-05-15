@@ -34,5 +34,40 @@
       while ($dataL = $query->fetch_assoc()) {
         array_push($lineList,$dataL['lineNo']);
       }
-
+  // DEPARTMENT LIST
+    $deptList = array();
+    $sqlGetDepts = "SELECT DISTINCT(`deptCode`) AS deptCode FROM `a_m_department`";
+    $query = $conn->query($sqlGetDepts);
+      while ($dataD = $query->fetch_assoc()) {
+        array_push($deptList,$dataD['deptCode']);
+      }
+  // POSITION LIST
+    $positionList = array();
+      $sqlGetPosition = "SELECT * FROM `a_m_position`";
+        $query = $conn->query($sqlGetPosition);
+          while ($dataP = $query->fetch_assoc()) {
+            $position = $dataP['position'];
+            $rank = $dataP['rank'];
+            $positionList[] = array("position" => $position, "rank" => $rank);
+          }
+  // AGENCY LIST
+    $agencyList = array();
+      $sqlGetAgency = "SELECT * FROM `a_m_agency`";
+        $query = $conn->query($sqlGetAgency);
+          while ($dataA = $query->fetch_assoc()) {
+            $agencyCode = $dataA['agencyCode'];
+            $pattern = $dataA['pattern'];
+            $agencyList[] = array("agency" => $agencyCode, "pattern" => $pattern);
+          }
+  //  SHIFT LIST
+    $shiftList = array("ADS","DS","NS");
+  //  SCHED LIST
+    $schedList = array();
+      $sqlGetSched = "SELECT * FROM `a_m_sched`";
+        $query = $conn->query($sqlGetSched);
+          while ($dataS = $query->fetch_assoc()) {
+            array_push($schedList,$dataS['schedTime']);
+          }
+  //  SHIFT LIST
+    $jtList = array("Permanent","Temporary");
 ?>

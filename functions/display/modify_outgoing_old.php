@@ -7,7 +7,7 @@
     $rqst = $_GET['data'];
       if ($rqst == 'checkCode'){
         $outCode = $_GET['code'];
-        $sql = "SELECT * FROM `t_code_resubmit_outgoing` WHERE resubmitCode = '$outCode' AND usedDt IS NULL";
+        $sql = "SELECT * FROM `sas_d_resub_code` WHERE resubmitCode = '$outCode' AND usedDt IS NULL";
         $query = $conn->query($sql);
         $count = mysqli_num_rows($query);
         if($count == 1){

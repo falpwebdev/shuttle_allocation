@@ -41,21 +41,22 @@
 <?php
   include 'src/navs/agency-topnav.php';
   include 'modals/ag-addEmployee.php';
+  include 'modals/admin_upload_emp.php';
   $agency = $_SESSION['agency'];
 ?>
 <!-- ADDING LOADER -->
-<div id="loading" class="overlay">
-	<div class="col-lg-12" style="">
-    <p class="mt-5 animated flash infinite slow text-center text-white text-uppercase">Please wait. <br>Saving new employees..</p>
-	</div>
-</div>
+  <div id="loading" class="overlay">
+    <div class="col-lg-12" style="">
+      <p class="mt-5 animated flash infinite slow text-center text-white text-uppercase">Please wait. <br>Saving new employees..</p>
+    </div>
+  </div>
 <!-- /ADDING LOADER -->
 <!-- DELETING LOADER -->
-<div id="loading" class="overlayDel">
-	<div class="col-lg-12" style="">
-    <p class="mt-5 animated flash infinite slow text-center text-white text-uppercase">Please wait. <br>Deactivating employees..</p>
-	</div>
-</div>
+  <div id="loading" class="overlayDel">
+    <div class="col-lg-12" style="">
+      <p class="mt-5 animated flash infinite slow text-center text-white text-uppercase">Please wait. <br>Deactivating employees..</p>
+    </div>
+  </div>
 <!-- /DELETING LOADER -->
 <div class="container-fluid">
   <div class="row">
@@ -295,10 +296,10 @@ $(document).ready(function(){
         // Display Cost
           const displayCostCenter = (x) => {
             $.ajax({
-              url: 'functions/display/common_department.php?data=m_cost&dept='+x,
+              url: 'functions/display/common_department.php?data=ma_cost&position='+x,
               method: 'get',
               success: function(response){
-                $('#empCost').html(response);
+                $('#empCost').val(response);
               },error: function(){
               }
             });
@@ -366,9 +367,12 @@ $(document).ready(function(){
           });
   // Add Employee
     // Display Cost Center
-      $('#empDepartment').change(function(){
+      $('#empPosition').change(function(){
         var x = $(this).val();
         displayCostCenter(x);
+        if(x != 'Associate'){
+          $('#empHandler').val('<?=$agency?>');
+        }
       });
     // Submit New Employee (Single)
       $('#submitNewEmp').click(function(){
@@ -483,16 +487,19 @@ $(document).ready(function(){
             type: 'post',
             success: function (response){
               $('.overlay').hide();
-              Swal.fire({
-                icon: 'info',
-                showConfirmButton: false,
-                showCloseButton: true,
-                title: 'Uploading Status',
-                text: response
-              })
+              $('#uploadMPMod').modal();
+              $('#tblUploadStat').html(response);
             },error: function (response){
             }
           });
+      });
+      // Download Error Report
+      $('#btnExportError').click(function (e) {
+        window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('div[id=statSummary]').html()));
+              e.preventDefault();
+      });
+      $('#btnCloseMod').click(function(){
+        location.reload();
       });
   // Deact Employee
       $('#uploadDeactEmp').change(function(){
