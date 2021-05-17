@@ -35,6 +35,7 @@
         $idUser = $_POST['idUser'];
         $shift = $_POST['shift'];
         $handle = $_POST['handle'];
+        $handle = str_replace("@","&",$handle);
         // Delete Existing Data
             // Delete Outgoing
               $sqlDelOFiled = "DELETE FROM `sas_d_outgoing` WHERE `filedFor` = '$handle' AND `datePresent` = '$dateFor' AND shift = '$shift'";
@@ -122,6 +123,7 @@
         
       }else if($process == 'empChangeShuttle'){
         $handle = $_POST['handle'];
+        $handle = str_replace("@","&",$handle);
         $idUser = $_POST['idUser'];
         $shift = $_POST['shift'];
         // Change Route MP Data

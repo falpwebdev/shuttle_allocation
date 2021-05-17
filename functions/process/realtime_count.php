@@ -11,6 +11,7 @@
         $interface = $_GET['interface'];
         $userType = $_GET['type'];
         $handle = $_GET['handle'];
+        $handle = str_replace("@","&",$handle); 
           $sqlHandleMP = "SELECT COUNT(`idNumber`) as handleMP FROM `a_m_employee` WHERE `status` = 'Active'";
           if(isset($_GET['shift'])){
             $shift = $_GET['shift'];
@@ -22,7 +23,7 @@
           }
           if($interface == 'shuttle'){
             if($userType == 'Clerk' || $userType == 'Agency'){
-              $handleClause = " AND `empHandler` = '$handle' AND `lineNo` = '0'".$sqlShift;
+              $handleClause = " AND `empHandler` = '$handle' AND `lineNo` = 'N/A'".$sqlShift;
             }else if($userType == 'Line Leader'){
               $handleClause = " AND `lineNo` = '$handle'".$sqlShift;
             }
@@ -33,7 +34,7 @@
               $handleClause = " AND `lineNo` = '$handle'";
             }
           }
-            $sqlHandleMP = $sqlHandleMP . $handleClause;
+          $sqlHandleMP = $sqlHandleMP . $handleClause;
           $query = $conn->query($sqlHandleMP);
           $data = $query->fetch_assoc();
           echo $count = $data['handleMP'];

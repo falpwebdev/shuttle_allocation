@@ -7,7 +7,7 @@
       $handle = $_GET['handle'];
       $handle = str_replace("@","&",$handle);
       $count = 1;
-      $sql = "SELECT * FROM `a_m_employee` WHERE empHandler = '$handle' AND `status` = 'Active'";
+      echo $sql = "SELECT * FROM `a_m_employee` WHERE empHandler = '$handle' AND `status` = 'Active'";
       $query = $conn->query($sql);
         while ($empData = $query->fetch_assoc()) {
           $idNumber = $empData['idNumber'];
@@ -26,34 +26,36 @@
           $lineNo = $empData['lineNo'];
           $elemId = $idNumber.'/'.$empName.'/'.$empDept.'/'.$empPosition.'/'.$empShift;
           echo '<tr id="'.$idNumber.'">
-          <td>
-          <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input empC" id="C'.$idNumber.'" value="'.$elemId.'">
-          <label class="custom-control-label" for="C'.$idNumber.'"></label>
-          </div>
-          </td>
-          <td>'.$idNumber.'</td>
-          <td onclick="displayMenu(&quot;'.$idNumber.'/'.$empName.'&quot;);"><i class="d-flex justify-content-end fas fa-mouse-pointer" style="font-size:8px;"></i>'.$empName.'</td>
-          <td>'.$dateHired.'</td>
-          <td>'.$empContact.'</td>
-          <td>'.$empDept.'</td>
-          <td>'.$empPosition.'</td>
-          <td>'.$empShift.'</td>
-          <td>'.$empArea.'</td>
-          <td>'.$empRoute.'</td>';
-          if (in_array($empDept, $withLineDept) || $handle == 'Recruitment and Training'){
-            echo '<td>'.$lineNo.'</td>';
-          }
-          echo  
-          '<td>'.$empShiftTime.'</td>
-          <td>'.$empSection.'</td>
-          <td>'.$empSubSect.'</td>
-          <td>'.$empAgency.'</td>
-            </tr>';
-          $count++;
+            <td>
+            <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input empC" id="C'.$idNumber.'" value="'.$elemId.'">
+            <label class="custom-control-label" for="C'.$idNumber.'"></label>
+            </div>
+            </td>
+            <td>'.$idNumber.'</td>
+            <td onclick="displayMenu(&quot;'.$idNumber.'/'.$empName.'&quot;);"><i class="d-flex justify-content-end fas fa-mouse-pointer" style="font-size:8px;"></i>'.$empName.'</td>
+            <td>'.$dateHired.'</td>
+            <td>'.$empContact.'</td>
+            <td>'.$empDept.'</td>
+            <td>'.$empPosition.'</td>
+            <td>'.$empShift.'</td>
+            <td>'.$empArea.'</td>
+            <td>'.$empRoute.'</td>';
+            if (in_array($empDept, $withLineDept) || $handle == 'Recruitment and Training'){
+              echo '<td>'.$lineNo.'</td>';
+            }
+            echo  
+            '<td>'.$empShiftTime.'</td>
+            <td>'.$empSection.'</td>
+            <td>'.$empSubSect.'</td>
+            <td>'.$empAgency.'</td>
+          </tr>';
+            $count++;
         }
     }else if($rqst == 'filterData'){
       $host = $_GET['handler'];
+      $host = str_replace("@","&",$host);
+
       $category = $_GET['categ'];
         // Dept
           if($category == 'dept'){
@@ -80,6 +82,7 @@
 
       $line = $_GET['line'];
       $host = $_GET['host'];
+      $host = str_replace("@","&",$host);
       $dateHired = $_GET['dateHired'];
 
       $sql = "SELECT * FROM `a_m_employee` WHERE empDeptCode = '$filterDept' AND `empHandler` = '$host'";
@@ -95,6 +98,7 @@
       if($dateHired != ''){
         $sql = $sql . "AND `dateHired` = '$dateHired'";
       }
+      // echo $sql;
       $query = $conn->query($sql);
       $count = 1;
       while ($empData = $query->fetch_assoc()) {

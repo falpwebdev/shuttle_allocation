@@ -82,6 +82,7 @@ $(document).ready(function(){
 // Display Select Filing For 
   $('#filedItem').change(function(){
     var filedFor = $(this).val();
+    filedFor = filedFor.replace("&","@");
     $.ajax({
       url: 'functions/display/user_submitted.php?data=filedFor&filed='+filedFor,
       method: 'get',
@@ -95,6 +96,7 @@ $(document).ready(function(){
 //  Display Select Filing Details
   $('#dateFiled').change(function(){
     var filedDate = $(this).val();
+    filedDate = filedDate.replace("&","@");
     // Details
       $.ajax({
         url: 'functions/display/user_submitted.php?data=filingDetails&type=details&filed='+filedDate,
@@ -104,7 +106,6 @@ $(document).ready(function(){
         },error: function(response){
         }
       });
-    details
     // Get Ougtgoing
       $.ajax({
         url: 'functions/display/user_submitted.php?data=filingDetails&type=outGoing&filed='+filedDate,

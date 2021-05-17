@@ -197,10 +197,13 @@ $(document).ready(function(){
     }, 3000);
     
     const filingMPCount = () => {
+      var data = '<?=$handle?>';
+      var handle = data.replace("&","@");
       $.ajax({
-        url: 'functions/process/realtime_count.php?process=filingMP_count&shift=<?=$shift?>&handle=<?=$handle?>&type=<?=$userType?>&interface=<?=$interface?>',
+        url: 'functions/process/realtime_count.php?process=filingMP_count&shift=<?=$shift?>&handle='+handle+'&type=<?=$userType?>&interface=<?=$interface?>',
         method: 'get',
         success: function(response){
+          // console.log(response);
           if('<?=$totcount?>' != response){
             Swal.fire({
               title: 'This page needs to reload. Your masterlist have been changed!',
@@ -277,6 +280,8 @@ $(document).ready(function(){
         var inc = 'false';
         var empOutGoing = [];
         var empAbsentDat = [];
+        var dataH = '<?=$handle?>';
+        var handle = dataH.replace("&","@");
         $('#btnSubmit').css('display','none');
         // Get Form Data
           $('#dat>tr').each(function(){
@@ -334,10 +339,10 @@ $(document).ready(function(){
                     user: '<?=$userEmpName?>',
                     idUser: '<?=$userId?>',
                     shift: '<?=$shift?>',
-                    handle: '<?=$handle?>'
+                    handle: handle
                   }
                 ).done(function(response){
-                      // alert(response);
+                      alert(response);
                 });
             
             //  Submit Shuttle Allocation Form
@@ -349,7 +354,7 @@ $(document).ready(function(){
                     idUser: '<?=$userId?>',
                     user: '<?=$userEmpName?>',
                     shift: '<?=$shift?>',
-                    handle: '<?=$handle?>'
+                    handle: handle
                   }
                 ).done(function(response){
                   if(response == 'success'){
@@ -369,6 +374,8 @@ $(document).ready(function(){
     });
   // Resubmit Allocation
     $('#btnResubmit').click(function(){
+      var data = '<?=$handle?>';
+      var handle = data.replace("&","@");
       (async () => {
         const { value: remarks } = await Swal.fire({
           title: 'Remarks',
@@ -384,7 +391,7 @@ $(document).ready(function(){
                 $('#btnSubmit').prop('disabled', false);
                 $('#btnResubmit').css('display','none');
                 $.ajax({
-                  url: 'functions/display/user_allocation.php?data=filedDetailsNow&handle=<?=$handle?>&shift=<?=$shift?>',
+                  url: 'functions/display/user_allocation.php?data=filedDetailsNow&handle='+handle+'&shift=<?=$shift?>',
                   method: 'get',
                   dataType: 'json',
                   success: function(data){

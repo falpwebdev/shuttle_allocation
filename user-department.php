@@ -193,10 +193,13 @@
       }, 3000);
       
       const filingMPCount = () => {
+        var data = '<?=$handle?>';
+        var handle = data.replace("&","@");
         $.ajax({
-          url: 'functions/process/realtime_count.php?process=filingMP_count&handle=<?=$handle?>&type=<?=$userType?>&interface=<?=$interface?>',
+          url: 'functions/process/realtime_count.php?process=filingMP_count&handle='+handle+'&type=<?=$userType?>&interface=<?=$interface?>',
           method: 'get',
           success: function(response){
+            // console.log(response);
             if('<?=$totcount?>' != response){
               Swal.fire({
                 title: 'This page needs to reload. Your masterlist have been changed!',
@@ -265,13 +268,16 @@
     // FILTER TABLE
       // Display Filtering Buttons
         $('#btnFilter').click(function(){
+          var data = '<?=$handle?>';
+          var handle = data.replace("&","@");
           $('#filters').toggle();
           $('#filters').addClass('animated fadeIn text-info');
           $('.filters').toggle();
-          displayFilter('<?=$userHandle?>');
+          displayFilter(handle);
         });
       // Display Filter Values
         const displayFilter = (x) => {
+
           // Department
             $.ajax({
               url: 'functions/display/user_department.php?data=filterData&handler='+x+'&categ=dept',
@@ -319,7 +325,8 @@
               var subDept = subDept1.replace("&","@");
             var line = $('#filLine').val();
             var dateHired = $('#filDate').val();
-            var host = '<?=$userHandle?>';
+            var host = '<?=$handle?>';
+            var host = host.replace("&","@");
               $.ajax({
                 url: 'functions/display/user_department.php?data=filterTable&filterDept='+filDept+'&filterSect='+secDept+'&filterSub='+subDept+'&line='+line+'&host='+host+'&dateHired='+dateHired,
                 method: 'get',

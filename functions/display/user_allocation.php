@@ -7,6 +7,7 @@
     $rqst = $_GET['data'];
     if($rqst == 'filedDetailsNow'){
       $handle = $_GET['handle'];
+      $handle = str_replace("@","&",$handle);
       $shift = $_GET['shift'];
       // Determine Date Filed For
       if($timeNow >= '00:00:00' && $timeNow <= '07:59:59'){

@@ -92,7 +92,7 @@
         
       if($interface == 'shuttle'){
         if($userType == 'Clerk' || $userType == 'Agency'){
-          $handleClause = " AND `empHandler` = '$handle' AND `lineNo` = '0'".$sqlShift;
+          $handleClause = " AND `empHandler` = '$handle' AND `lineNo` = 'N/A'".$sqlShift;
         }else if($userType == 'Line Leader'){
           $handleClause = " AND `lineNo` = '$handle'".$sqlShift;
         }
@@ -105,7 +105,7 @@
       }
       $sqlHandleMP = $sqlHandleMP . $handleClause;
       $sqlMPDat = $sqlMPDat . $handleClause;
-
+      
       $query = $conn->query($sqlHandleMP);
           $data = $query->fetch_assoc();
           $totcount = $data['handleMP'];

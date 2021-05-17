@@ -14,22 +14,24 @@
         }
     }else if($rqst == 'filedFor'){
       $filed = $_GET['filed'];
+      $filed = str_replace("@","&",$filed);
       // Get Dates submitted for Filed By
       echo '<option selected value="0">Select Filed Date & Shift</option>';
       $sqlGetFiled = "SELECT CONCAT(datePresent,' (',shift,')') as filedDates,datePresent,shift FROM `sas_d_outgoing` WHERE filedFor = '$filed' GROUP BY datePresent,shift";
       $queryGet = $conn->query($sqlGetFiled);
       while ($filedData = $queryGet->fetch_assoc()) {
         $filedDates = $filedData['filedDates'];
-        $request = $filedData['datePresent'] .'@'. $filedData['shift'] .'@'. $filed;
+        $request = $filedData['datePresent'] .'~'. $filedData['shift'] .'~'. $filed;
         echo '<option value="'.$request.'">'.$filedDates.'</option>';
       } 
     }else if($rqst == 'filingDetails'){
       $filed = $_GET['filed'];
       $type = $_GET['type'];
-      $datax = explode("@",$filed);
+      $datax = explode("~",$filed);
       $filedDate = $datax[0];
       $filedShift = $datax[1];
       $filedFor = $datax[2];
+      $filedFor = str_replace("@","&",$filedFor);
       if($type == 'details'){
         echo $filedFor .' ('. $filedDate .' '.$filedShift.')';
       }else if($type == 'outGoing'){
