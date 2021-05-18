@@ -41,6 +41,14 @@
       while ($dataD = $query->fetch_assoc()) {
         array_push($deptList,$dataD['deptCode']);
       }
+    $subCodesList = array();
+    $sqlGetSubCodes = "SELECT `deptSubSection`,`code` FROM `a_m_department` GROUP BY deptSubSection,code";
+    $query = $conn->query($sqlGetSubCodes);
+      while ($dataDC = $query->fetch_assoc()) {
+        $subSection = $dataDC['deptSubSection'];
+        $code = $dataDC['code'];
+        $subCodesList[] = array("subSection" => $subSection, "code" => $code);
+      }
   // POSITION LIST
     $positionList = array();
       $sqlGetPosition = "SELECT * FROM `a_m_position`";

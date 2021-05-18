@@ -203,7 +203,7 @@ $(document).ready(function(){
         url: 'functions/process/realtime_count.php?process=filingMP_count&shift=<?=$shift?>&handle='+handle+'&type=<?=$userType?>&interface=<?=$interface?>',
         method: 'get',
         success: function(response){
-          // console.log(response);
+          console.log(response);
           if('<?=$totcount?>' != response){
             Swal.fire({
               title: 'This page needs to reload. Your masterlist have been changed!',

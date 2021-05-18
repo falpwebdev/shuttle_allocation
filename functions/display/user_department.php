@@ -7,7 +7,7 @@
       $handle = $_GET['handle'];
       $handle = str_replace("@","&",$handle);
       $count = 1;
-      echo $sql = "SELECT * FROM `a_m_employee` WHERE empHandler = '$handle' AND `status` = 'Active'";
+      $sql = "SELECT * FROM `a_m_employee` WHERE empHandler = '$handle' AND `status` = 'Active'";
       $query = $conn->query($sql);
         while ($empData = $query->fetch_assoc()) {
           $idNumber = $empData['idNumber'];

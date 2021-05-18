@@ -27,7 +27,7 @@
         }
         echo 'Successfuly Change Shift '.$idNumber;
     }else if($process == 'transferEmp'){
-      // Variables 
+       // Variables 
         $idNumber = $_GET['empID'];
         $empDept = $_GET['empDept'];
         $deptSect1 = $_GET['deptSect'];
@@ -45,49 +45,61 @@
         }
       // Transfer MP
         // Get other details
-          $sqlEmpName = "SELECT `empName`, `empHandler`,`lineNo`,`empDeptSection` FROM a_m_employee WHERE `idNumber` = '$idNumber'";
-            $queryx = $conn->query($sqlEmpName);
-              $nameDat = $queryx->fetch_assoc();
-                $empName = $nameDat['empName'];
-                $prevSect = $nameDat['empDeptSection'];
-                $empLine = $nameDat['lineNo'];
-                $empPrevHandler = $nameDat['empHandler'];
-                // Activity Details
-                  $data = $data .''.$idNumber .' - '. $empName .' from &nbsp;<i>'.$prevSect.' - '.$empLine.'&nbsp;</i> &nbsp;to &nbsp;'.$deptSect.' - '.$lineNo;
-                 // Update MP
-                    $sqlUpdate = "UPDATE `a_m_employee` SET `empDeptCode` = '$empDept',`empDeptSection`= '$deptSect',`empSubSect`= '$deptSubSect', `empHandler`= '$empHandler', `lineNo` = '$lineNo' WHERE idNumber = '$idNumber'";
-                    $queryUpdate = $conn->query($sqlUpdate);
-                    if($queryUpdate){
-                      // Send notif to Clerk
-                        $sqlInsertNotif = "INSERT INTO `sas_notifs`(`handler`, `remarks`, `data`, `dateFiled`, `userFiled`, `status`) VALUES ('$empHandler','Transfer Employees','$data',(SELECT CURRENT_TIMESTAMP()),'$user','new')";
-                        $queryNotif = $conn->query($sqlInsertNotif);
-                      // Send notif to Line Leader
-                        if($lineNo != '0'){
-                          $sqlInsertNotifL = "INSERT INTO `sas_notifs`(`handler`, `remarks`, `data`, `dateFiled`, `userFiled`, `status`) VALUES ('$lineNo','Transfer Employees','$data',(SELECT CURRENT_TIMESTAMP()),'$user','new')";
-                          $queryNotifL = $conn->query($sqlInsertNotifL);
-                        }
-                      // If User Exist
-                        $sqlA = "SELECT * FROM `sas_m_accounts` WHERE idNumber = '$idNumber'";
-                        $queryAC = $conn->query($sqlA);
-                        $count = mysqli_num_rows($queryAC);
-                        if($count == 1){
-                          $datA = $queryAC->fetch_assoc();
-                          $userType = $datA['userType'];
-                          if($userType == 'Line Leader'){
-                            $handle = $lineNo;
-                          }else{
-                            $handle = $deptSect;
-                          }
-                         $sqlUpdateAccMstr = "UPDATE `sas_m_accounts` SET `empDeptCode`='$empDept',`empHandleLine`='$handle' WHERE `idNumber` = '$idNumber'";
-                            $queryAc = $conn->query($sqlUpdateAccMstr);
-                        }
-                      // Insert Record
-                        $sqlInsertRec = "INSERT INTO `a_mp_history`(`idNumber`, `activityDate`, `actDescription`, `user`) VALUES ('$idNumber',(SELECT CURRENT_TIMESTAMP()),'Transfer to <br>$empHandler  - $lineNo <br>from<br> $empPrevHandler,$prevSect - $empLine','$user')";
-                        $queryRec = $conn->query($sqlInsertRec);
-                        if($queryRec){
-                          echo 'Successfully transfered '.$idNumber;
-                        }
-                    }
+        $sqlEmpName = "SELECT `empName`, `empHandler`,`lineNo`,`empDeptSection`,empPosition,empCostCenter FROM a_m_employee WHERE `idNumber` = '$idNumber'";
+        $queryx = $conn->query($sqlEmpName);
+          $nameDat = $queryx->fetch_assoc();
+          $empName = $nameDat['empName'];
+          $empPosition = $nameDat['empPosition'];
+          $oldCost = $nameDat['empCostCenter'];
+          $prevSect = $nameDat['empDeptSection'];
+          $empLine = $nameDat['lineNo'];
+          $empPrevHandler = $nameDat['empHandler'];
+          // Activity Details
+            $data = $data .''.$idNumber .' - '. $empName .' from &nbsp;<i>'.$prevSect.' - '.$empLine.'&nbsp;</i> &nbsp;to &nbsp;'.$deptSect.' - '.$lineNo;
+            // Update Cost Center
+            if($transDate == 'permanent'){
+              $keyofDept = array_search($deptSubSect,array_column($subCodesList,'subSection'));
+              $code = $subCodesList[$keyofDept]["code"];
+              $key = array_search($empPosition,array_column($positionList,'position'));
+              $rank = $positionList[$key]["rank"];
+              $costCenter = $code.'.'.$rank.'_'.$deptSubSect;
+            }else{
+              $costCenter = $oldCost;
+            }
+          // Update MP
+            $sqlUpdate = "UPDATE `a_m_employee` SET `empDeptCode` = '$empDept',`empDeptSection`= '$deptSect',`empSubSect`= '$deptSubSect', `empHandler`= '$empHandler', `lineNo` = '$lineNo', `empCostCenter` = '$costCenter' WHERE idNumber = '$idNumber'";
+            $queryUpdate = $conn->query($sqlUpdate);
+            if($queryUpdate){
+              // Send notif to Clerk
+                $sqlInsertNotif = "INSERT INTO `sas_notifs`(`handler`, `remarks`, `data`, `dateFiled`, `userFiled`, `status`) VALUES ('$empHandler','Transfer Employees','$data',(SELECT CURRENT_TIMESTAMP()),'$user','new')";
+                $queryNotif = $conn->query($sqlInsertNotif);
+              // Send notif to Line Leader
+                if($lineNo != 'N/A'){
+                  $sqlInsertNotifL = "INSERT INTO `sas_notifs`(`handler`, `remarks`, `data`, `dateFiled`, `userFiled`, `status`) VALUES ('$lineNo','Transfer Employees','$data',(SELECT CURRENT_TIMESTAMP()),'$user','new')";
+                  $queryNotifL = $conn->query($sqlInsertNotifL);
+                }
+              // If User Exist
+                $sqlA = "SELECT * FROM `sas_m_accounts` WHERE idNumber = '$idNumber'";
+                $queryAC = $conn->query($sqlA);
+                $count = mysqli_num_rows($queryAC);
+                if($count == 1){
+                  $datA = $queryAC->fetch_assoc();
+                  $userType = $datA['userType'];
+                  if($userType == 'Line Leader'){
+                    $handle = $lineNo;
+                  }else{
+                    $handle = $deptSect;
+                  }
+                 $sqlUpdateAccMstr = "UPDATE `sas_m_accounts` SET `empDeptCode`='$empDept',`empHandleLine`='$handle' WHERE `idNumber` = '$idNumber'";
+                    $queryAc = $conn->query($sqlUpdateAccMstr);
+                }
+              // Insert Record
+                $sqlInsertRec = "INSERT INTO `a_mp_history`(`idNumber`, `activityDate`, `actDescription`, `user`) VALUES ('$idNumber',(SELECT CURRENT_TIMESTAMP()),'Transfer to <br>$empHandler  - $lineNo <br>from<br> $empPrevHandler,$prevSect - $empLine','$user')";
+                $queryRec = $conn->query($sqlInsertRec);
+                if($queryRec){
+                  echo 'Successfully transfered '.$idNumber;
+                }
+            }
     }else if($process == 'finishedTrans'){
       $transDate = $_GET['transDate'];
       $sqlUpdate = "UPDATE `sas_d_mp_transfer` SET `filingDone`='1' WHERE  `dateTrans`= (SELECT CURRENT_DATE()) AND `dateBack`='$transDate' AND `filedBy`='$user'";

@@ -155,7 +155,7 @@
       $query = $conn->query($sqlSelect);
       while ($data = $query->fetch_assoc()) {
         $lineNo = $data['lineNo'];
-        $carModel = $data['carModel'];
+        $carMaker = $data['carMaker'];
         $process = $data['process'];
         $deptCode = $data['deptCode'];
         $deptSection = $data['section'];
@@ -165,7 +165,7 @@
           <td>'.$deptCode.'</td>
           <td>'.$deptSection.'</td>
           <td>'.$subSect.'</td>
-          <td>'.$carModel.'</td>
+          <td>'.$carMaker.'</td>
           <td>'.$process.'</td>
           <td>
             <button class="btn btn-sm btn-primary" onclick="editLine(&quot;'.$lineNo.'&quot;)"><i class="fas fa-edit"></i></button>
@@ -179,7 +179,7 @@
       $query = $conn->query($sql);
       while ($data = $query->fetch_assoc()) {
         $lineNo = $data['lineNo'];
-        $carModel = $data['carModel'];
+        $carMaker = $data['carMaker'];
         $process = $data['process'];
         $deptCode = $data['deptCode'];
         $section = $data['section'];
@@ -187,7 +187,7 @@
       }
       $data = array(
         "lineNo" => $lineNo,
-        "carModel" => $carModel,
+        "carMaker" => $carMaker,
         "process" => $process,
         "dept" => $deptCode,
         "section" => $section,

@@ -215,10 +215,10 @@
         $deptSect = str_replace("@","&",$deptSect1);
           $subSect1 = $_GET['subSect'];
         $subSect = str_replace("@","&",$subSect1);
-        $carModel = $_GET['model'];
+        $carMaker = $_GET['model'];
         $process = $_GET['process1'];
         $line = $_GET['line'];
-        $sqlInsert = "INSERT INTO `a_m_line`(`lineNo`, `carModel`, `process`, `deptCode`, `section`, `subSect`) VALUES ('$line','$carModel','$process','$deptCode','$deptSect','$subSect')";
+        $sqlInsert = "INSERT INTO `a_m_line`(`lineNo`, `carMaker`, `process`, `deptCode`, `section`, `subSect`) VALUES ('$line','$carMaker','$process','$deptCode','$deptSect','$subSect')";
         $query = $conn->query($sqlInsert);
         if($query){
           echo 'Successfully Added Line Number';
@@ -238,7 +238,7 @@
         $deptSubSect = str_replace("@","&",$subSect);
   
         // Update Masterlist 
-        $sql = "UPDATE `a_m_line` SET `lineNo`='$line',`carModel`='$model',`process`='$process1',`deptCode`='$deptCode',`section`='$deptSect',`subSect`='$deptSubSect' WHERE `lineNo`='$prev'";
+        $sql = "UPDATE `a_m_line` SET `lineNo`='$line',`carMaker`='$model',`process`='$process1',`deptCode`='$deptCode',`section`='$deptSect',`subSect`='$deptSubSect' WHERE `lineNo`='$prev'";
         $query = $conn->query($sql);
         if($query){
           // Update Employee Master

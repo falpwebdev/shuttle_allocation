@@ -21,7 +21,7 @@
         $absentMP = array();
         $filedData = array();
       // Get Handles
-        $sqlGetHandle = "SELECT idNumber FROM `a_m_employee` WHERE `empHandler` = '$handle' AND `empShift` = '$shift'";
+       $sqlGetHandle = "SELECT idNumber FROM `a_m_employee` WHERE `empHandler` = '$handle' AND `empShift` = '$shift'";
         $queryH = $conn->query($sqlGetHandle);
           while ($datH = $queryH->fetch_assoc()) {
             $idNumber = $datH['idNumber'];

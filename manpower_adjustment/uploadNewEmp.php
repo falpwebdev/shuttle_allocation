@@ -82,9 +82,9 @@
                           // CONTACT NO
                             $contactNo = $worksheet->getCell('I'.$startRow)->getValue();
                           //  POSITION
-                          $empPos = $worksheet->getCell('J'.$startRow)->getValue();
-                          $empPos1 = mb_strtolower($empPos);
-                            $empPosition = ucwords($empPos1," ");
+                          $empPosition = $worksheet->getCell('J'.$startRow)->getValue();
+                          // $empPos1 = mb_strtolower($empPos);
+                          //   $empPosition = ucwords($empPos1," ");
                             if(in_array($empPosition,array_column($positionList,'position'))){
                               // DEPARTMENT CODE
                               $dept = $worksheet->getCell('L'.$startRow)->getValue();
@@ -101,8 +101,14 @@
                                     // MP Section/SubSect
                                     $deptSection = $worksheet->getCell('M'.$startRow)->getValue();
                                     $deptSubSection = $worksheet->getCell('N'.$startRow)->getValue();
-                                    $carMaker = $worksheet->getCell('P'.$startRow)->getValue();
                                     $empHandler = $deptSection;
+                                    // Cost Center
+                                    $keyofDept = array_search($deptSubSection,array_column($subCodesList,'subSection'));
+                                    $code = $subCodesList[$keyofDept]["code"];
+                                    $key = array_search($empPosition,array_column($positionList,'position'));
+                                    $rank = $positionList[$key]["rank"];
+                                    $costCenter = $code.'.'.$rank.'_'.$deptSubSection;
+                                  }
                                     $sqlCheckDept = "SELECT COUNT(`listID`) as `status` FROM `a_m_department` WHERE `deptCode` = '$deptCode' AND `deptSection` = '$deptSection' AND `deptSubSection` = '$deptSubSection'";
                                     $queryC = $conn->query($sqlCheckDept);
                                     $res = $queryC->fetch_assoc();
@@ -112,7 +118,7 @@
                                       $lineNo = $worksheet->getCell('O'.$startRow)->getValue();
                                       if(!empty($lineNo)){
                                         if($lineNo != 'N/A'){
-                                          $sqlCheckLine = "SELECT COUNT(lineNo) as `status` FROM `a_m_line` WHERE lineNo = '$lineNo' AND carModel = '$carMaker' AND deptCode = '$deptCode' AND section = '$deptSection' AND subSect = '$deptSubSection'";
+                                          $sqlCheckLine = "SELECT COUNT(lineNo) as `status` FROM `a_m_line` WHERE lineNo = '$lineNo' AND deptCode = '$deptCode' AND section = '$deptSection' AND subSect = '$deptSubSection'";
                                           $queryCL = $conn->query($sqlCheckLine);
                                           $res = $queryCL->fetch_assoc();
                                           $num = $res['status'];
@@ -130,34 +136,26 @@
                                         }
                                         if($lineS == 'good'){
                                           // Area
-                                          $eArea = $worksheet->getCell('Q'.$startRow)->getValue();
+                                          $eArea = $worksheet->getCell('P'.$startRow)->getValue();
                                           $empArea = mb_strtoupper($eArea);
                                             if($empArea == 'A' || $empArea == 'B'){
                                               // ROUTE
-                                              $eRoute = $worksheet->getCell('R'.$startRow)->getValue();
+                                              $eRoute = $worksheet->getCell('Q'.$startRow)->getValue();
                                               $empRoute = mb_strtoupper($eRoute);
                                                 if (in_array($empRoute,$routeList)){
                                                   // SHIFT
-                                                  $eShift = $worksheet->getCell('S'.$startRow)->getValue();
+                                                  $eShift = $worksheet->getCell('R'.$startRow)->getValue();
                                                   $empShift = mb_strtoupper($eShift);
                                                   if(in_array($empShift,$shiftList)){
                                                     // SHIFT SCHED
-                                                    $empSt = $worksheet->getCell('T'.$startRow)->getValue();
+                                                    $empSt = $worksheet->getCell('S'.$startRow)->getValue();
                                                     if(in_array($empSt,$schedList)){
                                                       // JOB TYPE
-                                                      $eJT = $worksheet->getCell('U'.$startRow)->getValue();
+                                                      $eJT = $worksheet->getCell('T'.$startRow)->getValue();
                                                       $empJobType1 = mb_strtolower($eJT);
                                                         $empJobType = ucwords($empJobType1," ");
                                                       if(in_array($empJobType,$jtList)){
-                                                        // Cost Center
-                                                        $key = array_search($empPosition,array_column($positionList,'position'));
-                                                        $rank = $positionList[$key]["rank"];
-                                                        $sqlgetCost = "SELECT `costCenter` FROM `a_m_costing` WHERE `deptCode` = '$deptCode' AND `deptSection` = '$deptSection' AND `deptSubSection` = '$deptSubSection' AND `carMaker` = '$carMaker' AND `rank` = '$rank'";
-                                                        $queryD = $conn->query($sqlgetCost);
-                                                        $count = mysqli_num_rows($queryD);
-                                                        if($count != '0'){
-                                                          $res = $queryD->fetch_assoc();
-                                                          $costCenter = $res['costCenter'];
+                                                        
                                                           // Ignore Special Characters
                                                           $empName = mysqli_real_escape_string($conn,$empName2);
                                                           $nickName = mysqli_real_escape_string($conn,$nickName2);
@@ -184,12 +182,6 @@
                                                                   }
                                                                 }
                                                             }
-                                                        }else{
-                                                          $failRegister[] = array(
-                                                            "idNumber" => $idNumber, 
-                                                            "error" => 'No registered cost center in the system. Contact Admin.'
-                                                          );
-                                                        }
                                                       }else{
                                                         $failRegister[] = array(
                                                           "idNumber" => $idNumber, 
@@ -234,7 +226,6 @@
                                         "error" => 'Wrong input in Section/Sub-Section.'
                                       );
                                     }
-                                  }
                                 }else{
                                   $failRegister[] = array(
                                     "idNumber" => $idNumber, 
