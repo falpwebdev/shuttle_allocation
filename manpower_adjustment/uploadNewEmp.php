@@ -3,14 +3,6 @@
   include '../functions/inc/inc.php';
   require '../plugins/phpspreadsheet/vendor/autoload.php';
   set_time_limit(0);
-
-  // Get Exisiting ID's
-  $sqlGetExisting = "SELECT `idNumber` FROM `a_m_employee`";
-  $query1 = $conn->query($sqlGetExisting);
-    while ($dataId = $query1->fetch_assoc()) {
-      $existingIds[] = $dataId['idNumber'];
-    }
-
   // Variables 
     $ipAdd = $_SERVER['REMOTE_ADDR'];
     $ipAdd2 = str_replace(":","",$ipAdd);

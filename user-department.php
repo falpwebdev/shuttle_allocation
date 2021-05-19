@@ -50,6 +50,7 @@
   include 'modals/transferEmp.php';
   include 'modals/changeShift.php';
   include 'modals/processingUI.php';
+  include 'modals/admin_upload_emp.php';
 ?>
 <!-- ADDING LOADER -->
 <div id="loading" class="overlay">
@@ -66,7 +67,7 @@
         <div class="card-body">
           <!-- Main Button Section -->
             <?php
-              if($userHandle == 'Recruitment and Training'){
+              if($userHandle == 'Recruitment & Training'){
             ?>
               <div class="row d-flex">
                 <form enctype="multipart/form-data" class="d-flex justify-content-end">
@@ -144,7 +145,7 @@
                       <th>Route</th>
                       <?php
                       if(isset($dept)){
-                        if (in_array($dept, $withLineDept)){
+                        if (in_array($dept, $withLineDept) || $handle == 'Recruitment & Training'){
                           echo '<th>Line No</th>';
                         }
                       }
@@ -674,16 +675,19 @@
               type: 'post',
               success: function (response){
                 $('.overlay').hide();
-                Swal.fire({
-                  icon: 'info',
-                  showConfirmButton: true,
-                  showCloseButton: true,
-                  title: 'Uploading Status',
-                  text: response
-                })
+                $('#uploadMPMod').modal();
+                $('#tblUploadStat').html(response);
               },error: function (response){
               }
             });
+        });
+        // Download Error Report
+        $('#btnExportError').click(function (e) {
+          window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('div[id=statSummary]').html()));
+                e.preventDefault();
+        });
+        $('#btnCloseMod').click(function(){
+          location.reload();
         });
 </script>
     

@@ -9,12 +9,6 @@
     include '../../functions/inc/inc.php';
     require '../../plugins/phpspreadsheet/vendor/autoload.php';
 
-  // Get Exisiting ID's
-  $sqlGetExisting = "SELECT `idNumber` FROM `a_m_employee`";
-  $query1 = $conn->query($sqlGetExisting);
-    while ($dataId = $query1->fetch_assoc()) {
-      $existingIds[] = $dataId['idNumber'];
-    }
 
   // Variables
     $failRegister = array();
@@ -128,7 +122,7 @@
                                                                       $empName = mysqli_real_escape_string($conn,$empName2);
                                                                       $nickName = mysqli_real_escape_string($conn,$nickName2);
                                                                         // INSERT IN DB
-                                                                          $sqlInsertNewEmp = "INSERT INTO `a_m_employee`(`idNumber`, `empName`, `gender`, `dateHired`, `batchNo`, `empNickname`, `empContact`, `empPosition`, `empCostCenter`, `empAgency`, `empDeptCode`, `empDeptSection`, `empSubSect`, `lineNo`, `empArea`, `empRoute`, `empShift`, `empShiftTime`, `empHandler`, `status`, `jobType`) VALUES ('$idNumber','$empName','$gender','$dateHired','$batchNo','$nickName','$contactNo','$empPosition','$costCenter','$agency','$deptCode','$deptSection','$depSubSection','0','$empArea','$empRoute','$empShift','$empSt','$empHandler','Active','$empJobType')";
+                                                                          $sqlInsertNewEmp = "INSERT INTO `a_m_employee`(`idNumber`, `empName`, `gender`, `dateHired`, `batchNo`, `empNickname`, `empContact`, `empPosition`, `empCostCenter`, `empAgency`, `empDeptCode`, `empDeptSection`, `empSubSect`, `lineNo`, `empArea`, `empRoute`, `empShift`, `empShiftTime`, `empHandler`, `status`, `jobType`) VALUES ('$idNumber','$empName','$gender','$dateHired','$batchNo','$nickName','$contactNo','$empPosition','$costCenter','$agency','$deptCode','$deptSection','$depSubSection','N/A','$empArea','$empRoute','$empShift','$empSt','$empHandler','Active','$empJobType')";
                                                                           $query = $conn->query($sqlInsertNewEmp);
                                                                           // Insert Logs
                                                                           if($query){

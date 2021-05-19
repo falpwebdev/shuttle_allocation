@@ -41,7 +41,7 @@
             <td>'.$empShift.'</td>
             <td>'.$empArea.'</td>
             <td>'.$empRoute.'</td>';
-            if (in_array($empDept, $withLineDept) || $handle == 'Recruitment and Training'){
+            if (in_array($empDept, $withLineDept) || $handle = 'Recruitment & Training'){
               echo '<td>'.$lineNo.'</td>';
             }
             echo  
@@ -92,7 +92,7 @@
       if($filterSub != 'none'){
         $sql = $sql . "AND `empSubSect` = '$filterSub'";
       }
-      if($line != '0'){
+      if($line != 'N/A'){
         $sql = $sql . "AND `lineNo` = '$line'";
       }
       if($dateHired != ''){
@@ -133,7 +133,7 @@
         <td>'.$empShift.'</td>
         <td>'.$empArea.'</td>
         <td>'.$empRoute.'</td>';
-        if (in_array($empDept, $withLineDept) || $handle == 'Recruitment and Training'){
+        if (in_array($empDept, $withLineDept) || $handle == 'Recruitment & Training'){
           echo '<td>'.$lineNo.'</td>';
         }
         echo  

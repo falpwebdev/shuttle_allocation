@@ -45,7 +45,7 @@
         }
       // Transfer MP
         // Get other details
-        $sqlEmpName = "SELECT `empName`, `empHandler`,`lineNo`,`empDeptSection`,empPosition,empCostCenter FROM a_m_employee WHERE `idNumber` = '$idNumber'";
+        $sqlEmpName = "SELECT `empName`, `empHandler`,`lineNo`,`empDeptSection`,`empPosition`,`empCostCenter` FROM a_m_employee WHERE `idNumber` = '$idNumber'";
         $queryx = $conn->query($sqlEmpName);
           $nameDat = $queryx->fetch_assoc();
           $empName = $nameDat['empName'];

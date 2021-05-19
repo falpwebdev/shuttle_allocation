@@ -78,4 +78,11 @@
           }
   //  SHIFT LIST
     $jtList = array("Permanent","Temporary");
+  
+  // Get Exisiting ID's
+    $sqlGetExisting = "SELECT `idNumber` FROM `a_m_employee`";
+    $query1 = $conn->query($sqlGetExisting);
+      while ($dataId = $query1->fetch_assoc()) {
+        $existingIds[] = $dataId['idNumber'];
+      }
 ?>
