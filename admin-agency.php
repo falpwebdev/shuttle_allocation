@@ -389,7 +389,6 @@ $(document).ready(function(){
           var x = $(this).attr('id');
           if($('#'+x).val() == '0'){
             stat2 = 'inc';
-          }else{
           }
         });
           if(stat1 == 'complete' && stat2 == 'complete'){
@@ -403,6 +402,7 @@ $(document).ready(function(){
             var newEmpArea = $("input[name=empArea]:checked").val();
             var newEmpShift = $("input[name=empShift]:checked").val();
             var newEmpSsched = $("input[name=empShiftSched]:checked").val();
+            var newEmpGender = $("input[name=empGender]:checked").val();
             var newEmpAgency = $('#empAgency').val();
             var newEmpRoute = $('#empRoute').val();
             var newEmpCost = $('#empCost').val();
@@ -416,6 +416,7 @@ $(document).ready(function(){
             var datax = {
               "idNumber": newEmpId,
               "empName": newEmpName,
+              "empGender": newEmpGender,
               "dateHired": dateHired,
               "batchNo": batchNo,
               "empNickName": newEmpNickname,

@@ -82,31 +82,34 @@
             </select>
           </div>
           <!-- AREA -->
-          <div class="col-lg-2">
-            <div class="custom-control custom-radio">
-             <input type="radio" class="custom-control-input" id="empA" value="A" name="empArea">
-             <label class="custom-control-label" for="empA">Area A</label>
-            </div>
-            <div class="custom-control custom-radio">
-             <input type="radio" class="custom-control-input" id="empB" value="B" name="empArea">
-             <label class="custom-control-label" for="empB">Area B</label>
-            </div>
+          <div class="col border rounded mr-1">
+              <label class="" for="">Area</label>
+              <div class="custom-control custom-radio">
+              <input type="radio" class="custom-control-input" id="empA" value="A" name="empArea">
+              <label class="custom-control-label" for="empA">A</label>
+              </div>
+              <div class="custom-control custom-radio">
+              <input type="radio" class="custom-control-input" id="empB" value="B" name="empArea">
+              <label class="custom-control-label" for="empB">B</label>
+              </div>
           </div>
-          <div class="col-lg-2">
+          <div class="col border rounded mr-1">
+            <label class="" for="">Shift</label>
             <div class="custom-control custom-radio">
               <input type="radio" class="custom-control-input" id="empDS" value="DS" name="empShift">
-              <label class="custom-control-label" for="empDS">Day Shift</label>
+              <label class="custom-control-label" for="empDS">DS</label>
             </div>
             <div class="custom-control custom-radio">
               <input type="radio" class="custom-control-input" id="empADS" value="ADS" name="empShift">
-              <label class="custom-control-label" for="empADS">Always Day Shift</label>
+              <label class="custom-control-label" for="empADS">ADS</label>
             </div>
             <div class="custom-control custom-radio">
               <input type="radio" class="custom-control-input" id="empNS" value="NS" name="empShift">
-              <label class="custom-control-label" for="empNS">Night Shift</label>
+              <label class="custom-control-label" for="empNS">NS</label>
             </div>
           </div>
-          <div class="col-lg-3">
+          <div class="col-lg-2 border rounded mr-1">
+            <label class="" for="">Schedule</label>
             <?php
               $sql = "SELECT * FROM `a_m_sched`";
               $query = $conn->query($sql);
@@ -118,8 +121,18 @@
               }
             ?>
           </div>
+          <div class="col border rounded mr-1">
+            <label class="" for="">Gender</label>
+            <div class="custom-control custom-radio">
+              <input type="radio" class="custom-control-input" id="empF" value="F" name="empGender">
+              <label class="custom-control-label" for="empF">Female</label>
+            </div>
+            <div class="custom-control custom-radio">
+              <input type="radio" class="custom-control-input" id="empM" value="M" name="empGender">
+              <label class="custom-control-label" for="empM">Male</label>
+            </div>
+          </div>
         </div>
-        
         <div class="row mt-2">
           <div class="col-lg-4">
             <label for="empAgency">Employer</label>
@@ -135,9 +148,6 @@
             <input type="text" id="empHandler" class="form-control" value="Recruitment and Training" placeholder="Recruitment and Training" disabled>
           </div>
         </div>
-
-        
-
       </div>
       
       <div class="modal-footer">

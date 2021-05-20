@@ -70,12 +70,9 @@
       }
     }else if ($rqst == 'm_cost') {
       $position = $_GET['position'];
-      $sql = "SELECT c.costCenter, p.position, p.rank
-      FROM a_m_costing c
-      INNER JOIN a_m_position p ON c.rank = p.rank WHERE p.position = '$position' AND `deptCode` = 'HR' AND c.deptSubSection = 'PD Technical Training'";
-      $query = $conn->query($sql);
-      $data = $query->fetch_assoc();
-        echo $costing = $data['costCenter'];
+      $key = array_search($position,array_column($positionList,'position'));
+      $rank = $positionList[$key]["rank"];
+        echo $costing = '501.'.$rank.'_PD Technical Training';
     }else if ($rqst == 'ma_cost') {
           $position = $_GET['position'];
           if($position == 'Associate'){

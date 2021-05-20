@@ -1,82 +1,9 @@
 <?php
-  include '../../db/config.php';
-  include '../../functions/inc/inc.php';
-   // Variables
-   $ipAdd = $_SERVER['REMOTE_ADDR'];
-   $dateToday = date('Y-m-d');
-   $timeNow = date('H:i:s');
-   if(isset($_GET['process'])){
-    $process = $_GET['process'];
-    $user = $_GET['user'];
-    if($process == 'add_MP'){
-      $data = json_decode($_GET['newData']);
-        $newEmpId = $data->idNumber;
-        // Check ID Format
-
-        //  Fix Name Format
-        $eName = $data->empName;
-          $eName = str_replace(",",", ",$eName);
-          $empName1 = mb_strtolower($eName);
-          $newEmpName = ucwords($empName1," ");
-        $dateHired = $data->dateHired;
-        $batchNo = $data->batchNo;
-        $eNName = $data->empNickName;
-        $eGender = $data->empGender;
-        // Fix Nick name format
-          $newEmpNickname1 = strtolower($eNName);
-          $newEmpNickname = ucwords($newEmpNickname1," ");
-        $newEmpContact = $data->empcontact;
-        $newEmpPosition = $data->empPosition;
-        $newEmpCostCent = $data->empCostCenter;
-        $newEmpAgency = $data->empAgency;
-        $newEmpAgency = strtoupper($newEmpAgency);
-        $newEmpDept = $data->empDeptCode;
-        $newEmpArea = $data->empArea;
-        $newEmpRoute = $data->empRoute;
-        $newEmpShift = $data->empShift;
-        $newEmpSsched = $data->empShiftTime;
-        $jobType = $data->jobType;
-          // Set Handler of Employee
-          if(in_array($newEmpDept,$specialDept)){
-            $empHandler = $newEmpAgency;
-          }else{
-            $empHandler = 'Recruitment & Training';
-          }
-            // Insert New Employee
-              $sqlInsertNewEmp = "INSERT INTO `a_m_employee`(`idNumber`, `empName`, `gender`,`dateHired`,`batchNo`,`empNickname`, `empContact`, `empPosition`, `empCostCenter`, `empAgency`, `empDeptCode`, `empDeptSection`,`empSubSect`,`lineNo`, `empArea`, `empRoute`, `empShift`, `empShiftTime`, `empHandler`,`status`,`jobType`) VALUES ('$newEmpId','$newEmpName','$eGender','$dateHired','$batchNo','$newEmpNickname','$newEmpContact','$newEmpPosition','$newEmpCostCent','$newEmpAgency','$newEmpDept','N/A','N/A','N/A','$newEmpArea','$newEmpRoute', '$newEmpShift','$newEmpSsched', '$empHandler','Active','$jobType');";
-              $query = $conn->query($sqlInsertNewEmp);
-                if($query){
-                  // Record Employee History
-                    $sqlInsertRec = "INSERT INTO `a_mp_history`(`idNumber`, `activityDate`, `actDescription`, `user`) VALUES ('$newEmpId',(SELECT CURRENT_TIMESTAMP()),'Employee Added to Master',(SELECT idNumber FROM sas_m_adminacc WHERE adName = '$user'))";
-                      $query1 = $conn->query($sqlInsertRec);
-                  // Senc Notification to Handler
-                    $sqlInsertNotif = "INSERT INTO `sas_notifs`(`handler`, `remarks`, `data`, `dateFiled`, `userFiled`, `status`) VALUES ('$empHandler','New Employee','$newEmpId - $newEmpName',(SELECT CURRENT_TIMESTAMP()),(SELECT idNumber FROM sas_m_adminacc WHERE adName = '$user'),'new')";
-                      $queryNotif = $conn->query($sqlInsertNotif);
-                  // Record User Logs 
-                    $sqlInsertLogs = "INSERT INTO `sas_logs`(`activityDate`, `userID`, `userName`, `actDescription`, `ipAdd`) VALUES ((SELECT CURRENT_TIMESTAMP()),(SELECT idNumber FROM sas_m_adminacc WHERE adName = '$user'),'$user','Added Employee to Master (Single) - $newEmpId','$ipAdd')";
-                      $query2 = $conn->query($sqlInsertLogs);
-                      echo 'done';
-                }else{
-                  echo 'error';
-                }
-    }else if($process == 'deact_MP'){
-      $idNumber = $_GET['idNumber'];
-      $category = $_GET['categ'];
-      $updateDeact = "UPDATE `a_m_employee` SET `status`= '$category' WHERE `idNumber` = '$idNumber'";
-      $query = $conn->query($updateDeact);
-      $sqlInsertRec = "INSERT INTO `a_mp_history`(`idNumber`, `activityDate`, `actDescription`, `user`) VALUES ('$idNumber',(SELECT CURRENT_TIMESTAMP()),'Deactivated Employee - $category',(SELECT idNumber FROM sas_m_adminacc WHERE adName = '$user'))";
-      $queryRec = $conn->query($sqlInsertRec);
-      $sqlInsertLogs = "INSERT INTO `sas_logs`(`activityDate`, `userID`, `userName`, `actDescription`, `ipAdd`) VALUES ((SELECT CURRENT_TIMESTAMP()),(SELECT idNumber FROM sas_m_adminacc WHERE adName = '$user'),'$user','Deactivated Employee of Master (Single) - $idNumber','$ipAdd')";
-      $query2 = $conn->query($sqlInsertLogs);
-      $sqlInsertNotif = "INSERT INTO `sas_notifs`(`handler`, `remarks`, `data`, `dateFiled`, `userFiled`, `status`) VALUES ((SELECT empHandler FROM a_m_employee WHERE idNumber = '$idNumber'),'Deleted Employee - $category',(SELECT empName FROM a_m_employee WHERE idNumber = '$idNumber'),(SELECT CURRENT_TIMESTAMP()),(SELECT idNumber FROM sas_m_adminacc WHERE adName = '$user'),'new')";
-      $queryNotif = $conn->query($sqlInsertNotif);
-      echo 'done';
-    }else if($process == 'update_MP'){
-      $userID = $_GET['userID'];
-      $empData = json_decode($_GET['empData']);
-        $type = $empData->type;
-        $info = 'Updated Info: ';
-        $oldId = $empData->oldID;
+  $userID = $_GET['userID'];
+  $empData = json_decode($_GET['empData']);
+    $type = $empData->type;
+    $info = 'Updated Info: ';
+    $oldId = $empData->oldID;
       // Get Old Values
         $sqlGetRec = "SELECT * FROM `a_m_employee`WHERE idNumber = '$oldId'";
         $query = $conn->query($sqlGetRec);
@@ -141,7 +68,7 @@
                     $code = $subCodesList[$keyofDept]["code"];
                     $key = array_search($empPosition,array_column($positionList,'position'));
                     $rank = $positionList[$key]["rank"];
-                    $empCost = $code.'.'.$rank.'_'.$oldSubSect;
+                    $empCost = $code.'.'.$rank.'_'.$deptSubSection;
                     $info = $info.'<br>  Updated Cost Center';
                   }else{
                     $empCost = $oldCost;
@@ -158,7 +85,7 @@
                   }
                 // Route
                   $empRoute = $empData->empRoute;
-                  if($empRoute != $oldRoute){
+                  if($empRoute != $oldArea){
                     $info = $info.'<br> Change route to '.$empRoute.'.';
                   }
                 // Shift
@@ -193,7 +120,7 @@
                   }
                 // Route
                   $empRoute = $empData->empRoute;
-                  if($empRoute != $oldRoute){
+                  if($empRoute != $oldArea){
                     $info = $info.'<br> Change route to '.$empRoute.'.';
                   }
                 // Shift Sched
@@ -224,18 +151,4 @@
                 }else{
                   echo 'error';
                 }
-    }else if($process == 'return_MP'){
-      $idNumber = $_GET['idNumber'];
-      $date = $_GET['date'];
-      $remarks = $_GET['remarks'];
-      $userName = $_GET['userName'];
-      $empHandler = $_GET['handler'];
-      $sqlInsertRec = "INSERT INTO `a_mp_history`(`idNumber`, `activityDate`, `actDescription`, `user`) VALUES ('$idNumber',(SELECT CURRENT_TIMESTAMP()),'Return Employee to Master on $date <br>Remarks: $remarks',(SELECT idNumber FROM sas_m_adminacc WHERE adName = '$userName'))";
-      $query1 = $conn->query($sqlInsertRec);
-      $sqlDelete = "DELETE FROM `a_m_employee` WHERE `idNumber` = '$idNumber' AND `status` != 'Active'";
-      $query2 = $conn->query($sqlDelete);
-      $sqlInsertLogs = "INSERT INTO `sas_logs`(`activityDate`, `userID`, `userName`, `actDescription`, `ipAdd`) VALUES ((SELECT CURRENT_TIMESTAMP()),$user,'$userName','Reactivated Employee - $idNumber','$ipAdd')";
-      $query3 = $conn->query($sqlInsertLogs);
-      echo 'done';
-    }
-   }
+?>

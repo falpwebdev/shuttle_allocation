@@ -394,10 +394,9 @@ $(document).ready(function(){
           var x = $(this).attr('id');
           if($('#'+x).val() == '0'){
             stat2 = 'inc';
-          }else{
           }
         });
-          if(stat1 == 'complete' && stat2 == 'complete'){
+        if(stat1 == 'complete' && stat2 == 'complete'){
             datax = [];
             var newEmpId = $('#newIDNum').val();
             var newEmpName = $('#newEmpName').val();
@@ -408,6 +407,7 @@ $(document).ready(function(){
             var newEmpArea = $("input[name=empArea]:checked").val();
             var newEmpShift = $("input[name=empShift]:checked").val();
             var newEmpSsched = $("input[name=empShiftSched]:checked").val();
+            var newEmpGender = $("input[name=empGender]:checked").val();
             var newEmpAgency = $('#empAgency').val();
             var newEmpRoute = $('#empRoute').val();
             var newEmpCost = $('#empCost').val();
@@ -416,6 +416,7 @@ $(document).ready(function(){
             var datax = {
               "idNumber": newEmpId,
               "empName": newEmpName,
+              "empGender": newEmpGender,
               "dateHired": dateHired,
               "batchNo": batchNo,
               "empNickName": newEmpNickname,
@@ -431,10 +432,11 @@ $(document).ready(function(){
               "jobType": 'Permanent'
             };
             var data = JSON.stringify(datax);
-              $.ajax({
+            $.ajax({
                 url: 'functions/process/admin_emp_master.php?process=add_MP&user=<?=$userEmpName?>&newData='+data,
                 method: 'get',
                 success: function(response){
+                  // console.log(response);
                   if(response == 'done'){
                     $('#addEmpMod').modal('toggle');
                       Swal.fire({
@@ -459,15 +461,15 @@ $(document).ready(function(){
                 },error: function(response){
                 }
               });
-          }else{
-            Swal.fire({
-              position: 'center',
-              icon: 'error',
-              title: 'Please complete employee details.',
-              showConfirmButton: false,
-              timer: 2000
+        }else{
+          Swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: 'Please complete employee details.',
+            showConfirmButton: false,
+            timer: 2000
           })
-          }
+        }
       });
     // Submit New Employee (Bulk)
       $('#uploadNewEmp').change(function(){
