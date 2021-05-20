@@ -71,26 +71,27 @@
     }else if($process == 'update_MP'){
       $userID = $_GET['userID'];
       $empData = json_decode($_GET['empData']);
-      $type = $empData->type;
-      $info = 'Updated Info: ';
-      $oldId = $empData->oldID;
-        // Get Old Values
-          $sqlGetRec = "SELECT * FROM `a_m_employee`WHERE idNumber = '$oldId'";
-          $query = $conn->query($sqlGetRec);
-          $prevData = $query->fetch_assoc();
-            $oldIdNum = $prevData['idNumber'];
-            $oldName = $prevData['empName'];
-            $oldHired = $prevData['dateHired'];
-            $oldBatch = $prevData['batchNo'];
-            $oldNN = $prevData['empNickname'];
-            $oldContact = $prevData['empContact'];
-            $oldPosition = $prevData['empPosition'];
-            $oldCost = $prevData['empCostCenter'];
-            $oldAgency = $prevData['empAgency'];
-            $oldArea = $prevData['empArea'];
-            $oldRoute = $prevData['empRoute'];
-            $oldShift = $prevData['empShift'];
-            $oldShiftTime = $prevData['empShiftTime'];
+        $type = $empData->type;
+        $info = 'Updated Info: ';
+        $oldId = $empData->oldID;
+      // Get Old Values
+        $sqlGetRec = "SELECT * FROM `a_m_employee`WHERE idNumber = '$oldId'";
+        $query = $conn->query($sqlGetRec);
+        $prevData = $query->fetch_assoc();
+          $oldIdNum = $prevData['idNumber'];
+          $oldName = $prevData['empName'];
+          $oldHired = $prevData['dateHired'];
+          $oldBatch = $prevData['batchNo'];
+          $oldNN = $prevData['empNickname'];
+          $oldContact = $prevData['empContact'];
+          $oldPosition = $prevData['empPosition'];
+          $oldCost = $prevData['empCostCenter'];
+          $oldAgency = $prevData['empAgency'];
+          $oldArea = $prevData['empArea'];
+          $oldRoute = $prevData['empRoute'];
+          $oldShift = $prevData['empShift'];
+          $oldShiftTime = $prevData['empShiftTime'];
+          $oldSubSect = $prevData['empSubSect'];
          // If Admin
             if($type == 'admin'){
               // Compare Values
@@ -133,11 +134,14 @@
                   $empPosition = $empData->empPosition;
                   if($empPosition != $oldPosition){
                     $info = $info.'<br> Promoted to '.$empPosition;
-                  }
-                // Cost Center
-                  $empCost = $empData->empCost;
-                  if($empCost != $oldCost){
+                    $keyofDept = array_search($oldSubSect,array_column($subCodesList,'subSection'));
+                    $code = $subCodesList[$keyofDept]["code"];
+                    $key = array_search($empPosition,array_column($positionList,'position'));
+                    $rank = $positionList[$key]["rank"];
+                    $empCost = $code.'.'.$rank.'_'.$oldSubSect;
                     $info = $info.'<br>  Updated Cost Center';
+                  }else{
+                    $empCost = $oldCost;
                   }
                 // Agency
                   $empAgency = $empData->empAgency;
@@ -151,7 +155,7 @@
                   }
                 // Route
                   $empRoute = $empData->empRoute;
-                  if($empRoute != $oldArea){
+                  if($empRoute != $oldRoute){
                     $info = $info.'<br> Change route to '.$empRoute.'.';
                   }
                 // Shift
@@ -186,7 +190,7 @@
                   }
                 // Route
                   $empRoute = $empData->empRoute;
-                  if($empRoute != $oldArea){
+                  if($empRoute != $oldRoute){
                     $info = $info.'<br> Change route to '.$empRoute.'.';
                   }
                 // Shift Sched
@@ -200,7 +204,6 @@
                 $empName = $empData->empName;
                 $empPosition = $empData->empPosition;
                 $empShift = $empData->empShift;
-                
             }
             // Update Master
               $queryUpdateMstr = $conn->query($sqlUpdate);
@@ -215,9 +218,9 @@
                     $sqlUpdateUserAcc = "UPDATE `sas_m_accounts` SET `idNumber`='$mp',`empName`='$empName',`empPosition`= '$empPosition',`empShift`='$empShift' WHERE `idNumber`='$oldId'";
                     $query = $conn->query($sqlUpdateUserAcc);
                     echo 'success';
-                  }else{
-                    echo 'error';
-                  }
+                }else{
+                  echo 'error';
+                }
     }else if($process == 'return_MP'){
       $idNumber = $_GET['idNumber'];
       $date = $_GET['date'];

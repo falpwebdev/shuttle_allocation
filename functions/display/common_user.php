@@ -37,10 +37,8 @@
       $sql = "SELECT * FROM `sas_m_route`";
       $query = $conn->query($sql);
       while ($data = $query->fetch_assoc()) {
-        $route1 = $data['route'];
-        $route2 = strtolower($route1);
-          $route = ucwords($route2);
-        echo '<option value="'.$route1.'">'.$route.'</option>';
+        $route = $data['route'];
+        echo '<option value="'.$route.'">'.$route.'</option>';
       }
     }
   }

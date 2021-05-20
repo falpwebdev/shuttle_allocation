@@ -170,8 +170,7 @@
               <!-- COST CENTER -->
                 <div class="col">
                   <label for="empCost">Cost Center</label>
-                  <select class="browser-default custom-select" id="empCost">
-                  </select>
+                  <input class="form-control" id="empCost" value="<?=$empCostCenter?>" disabled>
                 </div>
               <!-- EMPLOYER -->
                 <div class="col">
