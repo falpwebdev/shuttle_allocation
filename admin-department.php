@@ -193,6 +193,7 @@
                         <th>Date Hired</th>
                         <th>Batch Number</th>
                         <th>Name</th>
+                        <th>Gender</th>
                         <th>Contact</th>
                         <th>Position</th>
                         <th>Cost Center</th>

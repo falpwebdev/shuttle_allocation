@@ -49,6 +49,7 @@
           $empBatch = $empData['batchNo'];
           $empDeptCode = $empData['empDeptCode'];
           $empSection = $empData['empDeptSection'];
+          $empGender = $empData['gender'];
     
           echo '<tr onclick="displayMenu(&quot;'.$idNumber.'/'.$empName.'&quot;);">
             <td>'.$count.'</td>
@@ -56,6 +57,7 @@
             <td>'.$dateHired.'</td>
             <td>'.$empBatch.'</td>
             <td>'.$empName.'</td>
+            <td>'.$empGender.'</td>
             <td>'.$empContact.'</td>
             <td>'.$empPosition.'</td>
             <td>'.$empCostCenter.'</td>

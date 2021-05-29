@@ -323,5 +323,19 @@
       }else{
         echo 'false';
       }
+    }else if($rqst == 'm_carMaker'){
+      $sql = "SELECT * FROM `a_m_maker`";
+      if(isset($_GET['section'])){
+        $section = $_GET['section'];
+        $sql = $sql . " WHERE `section`  = '$section'";
+      }else{
+        $dept = $_GET['dept'];
+        $sql = $sql . " WHERE `deptCode`  = '$dept'";
+      }
+      $query = $conn->query($sql);
+      while ($data = $query->fetch_assoc()) {
+        $carMaker = $data['carMaker'];
+        echo '<option value="'.$carMaker.'">'.$carMaker.'</option>';
+      }
     }
 }

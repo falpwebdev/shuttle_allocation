@@ -32,7 +32,7 @@
               </div>
               <div class="col">
                 <label for="aCarModel">Car Model</label>
-                <input type="text" class="form-control" id="aCarModel">
+                <select class="browser-default custom-select" id="aCarModel"></select>
               </div>
               <div class="col">
                 <label for="aProcess">Process</label>

@@ -172,6 +172,10 @@
                   <option selected value="0">Select Section</option>
                 </select>
               </div>
+              <div class="col-3">
+                <a href="functions/process/adminAgencyMP.php?employer=<?=$employer?>" class="btn btn-sm btn-danger"><i class="fas fa-download"></i> Export Summary</a>
+                <!-- <button class="btn btn-sm btn-danger" id="btnExportSummary"><i class="fas fa-download"></i> Export Summary</button> -->
+              </div>
             <!-- /Select Section -->
           </div>
           <div class="row">
@@ -185,6 +189,7 @@
                       <th>Date Hired</th>
                       <th>Batch Number</th>
                       <th>Name</th>
+                      <th>Gender</th>
                       <th>Contact</th>
                       <th>Position</th>
                       <th>Cost Center</th>
@@ -531,6 +536,17 @@ $(document).ready(function(){
           }
         });
       });
+      // Download Table
+    // $('#btnExportSummary').click(function() {
+    //   $.ajax({
+    //     url: 'functions/process/adminAgencyMP.php?employer=<?=$employer?>',
+    //     method: 'get',
+    //     success: function(response){ 
+          
+    //     },error: function(response){
+    //     }
+    //   });
+    // });
 </script>
 </body>
 </html>   

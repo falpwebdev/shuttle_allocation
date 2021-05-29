@@ -58,8 +58,7 @@
                 </div>
                 <div class="col">
                   <label for="nCarModel">Car Model</label>
-                  <select class="browser-default custom-select" id="nCarModel">
-                  </select>
+                  <input type="text" class="form-control" id="nCarModel">
                 </div>
                 <div class="col">
                   <label for="nProcess">Process</label>
@@ -134,17 +133,17 @@ $(document).ready(function(){
 //  ADDING LINE NAME SCRIPT 
 
   // Display Department in Adding Line Name
-    const displayDepts = () => {
-      $.ajax({
-        url: '../functions/display/common_department.php?data=a_m_department',
-        method: 'get',
-        success: function(response){
-          $('#nDepts').html(response);
-        },error: function(response){
-          
-        }
-      });
-    }
+  const displayDepts = () => {
+    $.ajax({
+      url: '../functions/display/common_department.php?data=a_m_department',
+      method: 'get',
+      success: function(response){
+        $('#nDepts').html(response);
+      },error: function(response){
+        
+      }
+    });
+  }
 
   // Display Section & Sub Section of Department
     $('#nDepts').change(function(){
@@ -168,20 +167,8 @@ $(document).ready(function(){
       var b = $('#nSect').val();
       var sect = b.replace("&","@");
       displaySubSectA(dept,sect);
-      var x = $('#nSect').val();
-      $.ajax({
-        url: '../functions/display/admin_module.php?data=m_carMaker&section='+x,
-        method: 'get',
-        success: function(response){
-          $('#nCarModel').html(response);
-        },error: function(response){
-
-        }
-      });
     });
-  // Display Car Model
-    // $('#nSect').change(function(){
-    // });
+
   // Add Line Name
     $('#btnAddLine').click(function(){
       var nDepts = $('#nDepts').val();
@@ -228,16 +215,16 @@ $(document).ready(function(){
 
   // Functions
     // Display Sub Section of Selected Dept
-      const displaySubSectA = (dept,sect) => {
-        $.ajax({
-          url: '../functions/display/common_department.php?data=m_deptSubSect&dept='+dept+'&sect='+sect,
-          method: 'get',
-          success: function(response){
-            $('#nSubSect').html(response);
-          },error: function(response){
-          }
-        });
-      }
+    const displaySubSectA = (dept,sect) => {
+      $.ajax({
+        url: '../functions/display/common_department.php?data=m_deptSubSect&dept='+dept+'&sect='+sect,
+        method: 'get',
+        success: function(response){
+          $('#nSubSect').html(response);
+        },error: function(response){
+        }
+      });
+    }
 
 //  END ADDING LINE NAME SCRIPT 
 
@@ -387,16 +374,6 @@ $(document).ready(function(){
         $('#aDepts').val(x);
         displayAFields(x);
         deptLines(x);
-        $.ajax({
-        url: '../functions/display/admin_module.php?data=m_carMaker&dept='+x,
-        method: 'get',
-        success: function(response){
-          console.log(response);
-          $('#aCarModel').html(response);
-        },error: function(response){
-
-        }
-      });
       }
 
     // Display Additional Line in Department Selected
@@ -525,7 +502,7 @@ $(document).ready(function(){
 //  END UPDATE LINE NAME SCRIPT
 
 // DELETE LINE NAME
-  const deleteLine = (x,y) => {
+    const deleteLine = (x,y) => {
       Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -554,7 +531,7 @@ $(document).ready(function(){
             });
           }
         });
-  }
+    }
         
 </script>
 </body>

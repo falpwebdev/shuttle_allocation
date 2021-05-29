@@ -41,7 +41,7 @@
             <td>'.$empShift.'</td>
             <td>'.$empArea.'</td>
             <td>'.$empRoute.'</td>';
-            if (in_array($empDept, $withLineDept) || $handle = 'Recruitment & Training'){
+            if (in_array($empDept, $withLineDept)){
               echo '<td>'.$lineNo.'</td>';
             }
             echo  
