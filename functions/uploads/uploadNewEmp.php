@@ -77,8 +77,13 @@
                                         $contactNo = $worksheet->getCell('I'.$startRow)->getValue();
                                       //  POSITION
                                       $empPos = $worksheet->getCell('J'.$startRow)->getValue();
-                                      $empPos1 = mb_strtolower($empPos);
+                                      if($empPos == 'SPE' || $empPos == 'HK Reliever'){
+                                        $empPosition = $empPos;
+                                      }else{
+                                        $empPos1 = mb_strtolower($empPos);
                                         $empPosition = ucwords($empPos1," ");
+                                      }
+                                      
                                         if(in_array($empPosition,array_column($positionList,'position'))){
                                           // DEPARTMENT CODE
                                           $dept = $worksheet->getCell('K'.$startRow)->getValue();
@@ -179,7 +184,7 @@
                                         }else{
                                           $failRegister[] = array(
                                             "idNumber" => $idNumber, 
-                                            "error" => 'Wrong input in Position'
+                                            "error" => $empPosition
                                           );
                                         }
                                   }else{

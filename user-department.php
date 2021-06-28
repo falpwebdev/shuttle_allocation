@@ -529,7 +529,7 @@
                   displayLine(x,y,z);
                 }else{
                   $('#lineDisp').hide();
-                  $('#lineNo').val(0);
+                  $('#lineNo').val('N/A');
                 }
             },error: function(response){
             }
@@ -589,7 +589,7 @@
               var deptSubSect =deptSubSect1.replace("&","@");
             var lineNo = $('#lineNo').val();
               if(lineNo == null){
-                lineNo = 0;
+                lineNo = 'N/A';
               }
           // Check if Form is Complete
             if ($('#permanent').is(':checked')) {

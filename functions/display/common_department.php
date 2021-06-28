@@ -39,7 +39,8 @@
       $subSect = $_GET['subSect'];
       echo $sql = "SELECT `lineNo` FROM `a_m_line` WHERE `deptCode` = '$dept' AND `section` = '$sect' AND `subSect` = '$subSect'";
       $query = $conn->query($sql);
-      echo '<option selected value="0">Select Line No</option>';
+      echo '<option selected value="N/A">Select Line No</option>';
+      echo '<option selected value="N/A">N/A</option>';
       while ($data = $query->fetch_assoc()) {
         $lineNo = $data['lineNo'];
         echo '<option value="'.$lineNo.'">'.$lineNo.'</option>';
@@ -47,7 +48,7 @@
     }else if ($rqst == 'adjust_line') {
       $sql = "SELECT DISTINCT(`lineNo`) FROM `a_m_employee`";
       $query = $conn->query($sql);
-      echo '<option selected value="0">Select Line No</option>';
+      echo '<option selected value="N/A">Select Line No</option>';
       while ($data = $query->fetch_assoc()) {
         $lineNo = $data['lineNo'];
         echo '<option value="'.$lineNo.'">'.$lineNo.'</option>';
