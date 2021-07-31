@@ -46,9 +46,6 @@
                     $sql = "UPDATE `a_m_employee` SET `idNumber`='$newID', `empAgency` = 'FAS' WHERE `idNumber` = '$oldIdNumber'";
                     $query = $conn->query($sql);
                     if($query){
-                      // UPDATE QUERY LOCKER RECORDS
-                      $query_update_id = "UPDATE lms_locker SET idNumber = '$newID' WHERE idNumber = '$oldIdNumber'";
-                      $querylocker = $conn->query($query_update_id);
                       // Record Emp History
                       $sqlInsertRec = "INSERT INTO `a_mp_history`(`idNumber`, `activityDate`, `actDescription`, `user`) VALUES ('$newID',(SELECT CURRENT_TIMESTAMP()),'Update to Probationary MP via Manpower Adjustment <br> ID Number from $oldIdNumber to $newID <br> Directed to FAS <br> Probationary Date $probiDate','Basic User')";
                       $query1 = $conn->query($sqlInsertRec);
@@ -62,7 +59,6 @@
           $query2 = $conn->query($sqlInsertLogs);
           if($query2){
             echo 'All employees successfully directed to FAS.';
-            
           }
       }
     }else{
