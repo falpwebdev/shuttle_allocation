@@ -72,6 +72,9 @@
                             // Send Notification to handler
                             $sqlInsertNotif = "INSERT INTO `sas_notifs`(`handler`, `remarks`, `data`, `dateFiled`, `userFiled`, `status`) VALUES ((SELECT empHandler FROM a_m_employee WHERE idNumber = '$idNumber'),'Deleted Employee (Bulk) - $category',(SELECT empName FROM a_m_employee WHERE idNumber = '$idNumber'),(SELECT CURRENT_TIMESTAMP()),(SELECT idNumber FROM sas_m_adminacc WHERE adName = '$user'),'new')";
                             $queryNotif = $conn->query($sqlInsertNotif);
+                            // Save to locker deactivate data table
+                            $lkrDeact = "INSERT INTO `lms_deactivation` (`idNumber`,`lkrUpdateDate`) VALUES ('$idNumber','$server_date')";
+                            $qry = $conn->query($lkrDeact);
                           }
                           if($record == 1){
                             // Record User Logs
