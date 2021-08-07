@@ -129,7 +129,7 @@
           
           <!-- Table Section -->
             <div class="row mt-2">
-              <div class="col-lg-12"> 
+              <div class="col-lg-12" style="overflow:auto;max-height:80vh;"> 
                 <table class="table table-sm table-bordered" id="tblHandle">  
                   <thead>
                     <tr>
@@ -333,7 +333,8 @@
                 method: 'get',
                 success: function(response){
                   var table = $('#tblHandle').DataTable();
-                  table.destroy();
+                  // table.destroy();
+                  $.fn.dataTable.ext.errMode = 'none';
                   $('#tblEmpHandle').html(response);
                 $('#tblHandle').DataTable({
                   scrollX: "true",
