@@ -1,5 +1,6 @@
 <?php
   date_default_timezone_set('Asia/Manila');
+  $server_date = date('Y-m-d');
  	$servername = '172.25.112.172';
 	$username = 'SystemGroup';
 	$password = '#Sy$temGr0^p|112172';
